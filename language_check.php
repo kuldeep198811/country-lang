@@ -14,6 +14,7 @@ if (isset($argc) && count($argc) > 0) {
 		$countryInfo 	=	json_decode(file_get_contents('https://restcountries.eu/rest/v2/name/'.$param1.'?fullText=true'));
 		foreach($countryInfo[0]->languages as $index=>$arrlangInfo){
 			$langCode = $arrlangInfo->iso639_1;
+			print_r($arrlangInfo);exit;
 			$languagePreference	=	$index == 0 ? 'Primary':'Other';
 			echo "\n\n\nCountry {$languagePreference} language code: {$langCode} \n";			
 						
