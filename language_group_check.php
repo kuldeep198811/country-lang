@@ -60,19 +60,22 @@ class LanguageGroupCheck{
 			
 					$_strMsg	=	'';
 			if(!empty($_arrCountryInfo)){
+				
+					$_findInArrayCntry	=	array_column($_arrCountryInfo[0]->languages, 'name');		
+					$_speakingLngsCntry =	implode($_findInArrayCntry, ' ,');
+					
+					$_strMsg 	.=	"\n{$this->_countryX} speaks {$_speakingLngsCntry} \n";	
+					
 				foreach($_arrCountryInfo[0]->languages as $_key=>$_arrLangInfo){
 					
-					$_strLangCode	= 	$_arrLangInfo->iso639_1;
-					$_strCntryName	=	$_arrLangInfo->name;
-					
-					$_strMsg 	.=	"\nCountry {$_strCntryName} language code: {$_strLangCode} \n";	
+					$_strLangCode		= 	$_arrLangInfo->iso639_1;
+					$_strCntryLangName	=	$_arrLangInfo->name;
 							
 					$this->_reqeustURL		=	"https://restcountries.eu/rest/v2/lang/{$_strLangCode}";
 					$_arrSimiliarLangCntry	=	$this->__getRestData();
 								
-					$_strMsg 	.=	"\n{$this->_countryX} speaks same language ({$_strCntryName}) with these countries : ".implode(array_column($_arrSimiliarLangCntry, 'name'), ', ');
-										
-					
+					$_strMsg 	.=	"\n\n{$_strCntryLangName} speaking countries : ".implode(array_column($_arrSimiliarLangCntry, 'name'), ', ');
+
 				}
 				
 				$this->__formatOutPutMsg($_strMsg, "Result:\n");
