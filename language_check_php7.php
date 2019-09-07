@@ -21,12 +21,25 @@ class LanguageGroupCheck{
 			/* us of coalescing operator php7 */
 			$this->_countryX	=	ucfirst(strtolower($argv[1] ?? ''));
 			$this->_countryY	=	ucfirst(strtolower($argv[2] ?? ''));
+
+			/* validation */
+			if($this->_countryX == "" && $this->_countryY == ""){
+				
+				$this->__formatOutPutMsg("Country name can't be blank! Please enter any country name", "error:");
+				
+			}else if(($this->_countryX != "" && !preg_match('/[a-zA-Z]/', $this->_countryX)) || ($this->_countryY != "" && !preg_match('/[a-zA-Z]/', $this->_countryY))){
+				
+				$this->__formatOutPutMsg("Invalid value! Only country name allowed. E.g. Balgium, Germany, Inida, Spain, etc.", "error:");
+				
+			}else{
+				
+				//all good to go further
+				
+			}
 			
 			/* if only a county is passing */
-			if($this->_countryX !== "" && preg_match('/[a-zA-Z]/', $this->_countryX) && $this->_countryY == ""){
+			if($this->_countryX !== "" && $this->_countryY == ""){
 				$this->__similarSpeakingLangCntry();
-			}else{
-				echo 'Only characters allowed.';
 			}
 			
 			/* if two countries are passing */
@@ -42,30 +55,38 @@ class LanguageGroupCheck{
 	private function __similarSpeakingLangCntry() {
 		
 		try{
-			$this->_reqeustURL	=	"https://restcountries.eu/rest/v2/name/{$this->_countryX}?fullText=true";			
+			$this->_reqeustURL	=	"https://restcountries.eu/rest/v2/name/{$this->_countryX}?fullText=true";
 			$_arrCountryInfo 	=	$this->__getRestData();
 			
+					$_strMsg	=	'';
 			if(!empty($_arrCountryInfo)){
 				foreach($_arrCountryInfo[0]->languages as $_key=>$_arrLangInfo){
 					
 					$_strLangCode	= 	$_arrLangInfo->iso639_1;
 					$_strCntryName	=	$_arrLangInfo->name;
 					
-					echo "\n\n\nCountry {$_strCntryName} language code: {$_strLangCode} \n";			
+					$_strMsg 	.=	"\nCountry {$_strCntryName} language code: {$_strLangCode} \n";	
 							
 					$this->_reqeustURL		=	"https://restcountries.eu/rest/v2/lang/{$_strLangCode}";
 					$_arrSimiliarLangCntry	=	$this->__getRestData();
 								
-					echo "{$this->_countryX} speaks same language ({$_strCntryName}) with these countries : ".implode(array_column($_arrSimiliarLangCntry, 'name'), ', ');
-					echo "\n/***********************************************/\n";
+					$_strMsg 	.=	"\n{$this->_countryX} speaks same language ({$_strCntryName}) with these countries : ".implode(array_column($_arrSimiliarLangCntry, 'name'), ', ');
+										
 					
 				}
+				
+				$this->__formatOutPutMsg($_strMsg, "Result:\n");
+				
 			}else{
-				echo 'No data found. Please check entered country name.';
+				
+				$this->__formatOutPutMsg("No data found! Please check entered country name.", "error:");
+				
 			}
 			
 		} catch (Exception $_e) {
 			echo 'Caught exception: ',  $_e->getMessage(), "\n";
+		} finally{
+			
 		}
 	
 	}
@@ -77,28 +98,41 @@ class LanguageGroupCheck{
 			/* get data for first country */
 			$this->_reqeustURL	=	"https://restcountries.eu/rest/v2/name/{$this->_countryX}?fullText=true";			
 			$_countryInfo1 		=	$this->__getRestData();
-			$_findInArrayCntry1	=	array_column($_countryInfo1[0]->languages, 'name');		
-			$_speakingLngsCntry1=	implode($_findInArrayCntry1, ' ,');
+			
+			if(!empty($_countryInfo1)){
+				$_findInArrayCntry1	=	array_column($_countryInfo1[0]->languages, 'name');		
+				$_speakingLngsCntry1=	implode($_findInArrayCntry1, ' ,');
+						
+				
+				/* get data for second country */
+				$this->_reqeustURL	=	"https://restcountries.eu/rest/v2/name/{$this->_countryY}?fullText=true";			
+				$_countryInfo2 		=	$this->__getRestData();
+				
+				if(!empty($_countryInfo2)){
+					$_findInArrayCntry2	=	array_column($_countryInfo2[0]->languages, 'name');		
+					$_speakingLngsCntry2=	implode($_findInArrayCntry2, ' ,');
 					
-			
-			/* get data for second country */
-			$this->_reqeustURL	=	"https://restcountries.eu/rest/v2/name/{$this->_countryY}?fullText=true";			
-			$_countryInfo2 		=	$this->__getRestData();
-			$_findInArrayCntry2	=	array_column($_countryInfo2[0]->languages, 'name');		
-			$_speakingLngsCntry2=	implode($_findInArrayCntry2, ' ,');
-			
-			
-			/* country first and second speaking languages list */
-			echo "\n\n{$this->_countryX} speaks {$_speakingLngsCntry1}\n\n";
-			echo "{$this->_countryY} speaks {$_speakingLngsCntry2}\n\n";
-			
-			$_similarLangCheck 	=	implode(array_intersect($_findInArrayCntry1, $_findInArrayCntry2), ',');
-			
-			if(!empty($_similarLangCheck)){
-				echo "{$this->_countryX} and {$this->_countryY} both speaks {$_similarLangCheck}";
+					
+					/* country first and second speaking languages list */
+					$_strMsg	=	"\n{$this->_countryX} speaks {$_speakingLngsCntry1}";
+					$_strMsg   .=	"\n{$this->_countryY} speaks {$_speakingLngsCntry2}";
+					
+					$_similarLangCheck 	=	implode(array_intersect($_findInArrayCntry1, $_findInArrayCntry2), ',');
+					
+					if(!empty($_similarLangCheck)){
+						$_strMsg	.=	"\n{$this->_countryX} and {$this->_countryY} both speaks {$_similarLangCheck}";
+					}else{
+						$_strMsg	.=	"\n{$this->_countryX} and {$this->_countryY} both does not speaks any similar language.";
+					}
+					$this->__formatOutPutMsg($_strMsg, "Result:\n");
+				}else{
+					$this->__formatOutPutMsg("Data not found for `{$this->_countryY}`. Please verify entered country name.", "error:");
+				}
+				
 			}else{
-				echo "{$this->_countryX} and {$this->_countryY} both does not speaks any similar language.";
+				$this->__formatOutPutMsg("Data not found for `{$this->_countryX}`. Please verify entered country name.", "error:");
 			}
+			
 		} catch (Exception $_e) {
 			echo 'Caught exception: ',  $_e->getMessage(), "\n";
 		}
@@ -134,6 +168,14 @@ class LanguageGroupCheck{
 			return array();
 		}
 		
+	}
+	
+	/* $_msg contains message and $_type contains type e.g success, error or warning */
+	public function __formatOutPutMsg($_msg=null, $_type="error"){
+		$_strText 	 =	"\n/***********************************************/\n";
+		$_strText 	.=	ucwords(strtolower($_type)). " {$_msg}";
+		$_strText 	.=	"\n/***********************************************/\n";
+		exit($_strText);
 	}
 	
 }
