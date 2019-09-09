@@ -6,15 +6,21 @@ used my best practices for clean coding
 using echo to print output one-by-one same like commands output
 use of namespace 
 */
-namespace Api;
+namespace api;
 
-class LanguageGroupCheck{
+class languageGroupCheck{
 	
-	private $_countryX, $_countryY;
+	public $_countryX, $_countryY;
 	public  $_reqeustURL;
 	
+	public function __construct(){
+		
+		//do something here...
+		
+	}
+	
 	/* use of scalar type declaration PHP7 */
-	public function __construct(int $argc, array $argv){
+	public function __call(int $argc, array $argv){
 				
 		if (isset($argc) && is_int($argc) && $argc > 0) {
 			
@@ -23,19 +29,7 @@ class LanguageGroupCheck{
 			$this->_countryY	=	ucfirst(strtolower($argv[2] ?? ''));
 
 			/* validation */
-			if($this->_countryX == "" && $this->_countryY == ""){
-				
-				$this->__formatOutPutMsg("Country name can't be blank! Please enter any country name", "error:");
-				
-			}else if(($this->_countryX != "" && !preg_match('/[a-zA-Z]/', $this->_countryX)) || ($this->_countryY != "" && !preg_match('/[a-zA-Z]/', $this->_countryY))){
-				
-				$this->__formatOutPutMsg("Invalid value! Only country name allowed. E.g. Balgium, Germany, Inida, Spain, etc.", "error:");
-				
-			}else{
-				
-				//all good to go further
-				
-			}
+			$this->__validateCountryArguments($argv);
 			
 			/* if only a county is passing */
 			if($this->_countryX !== "" && $this->_countryY == ""){
@@ -46,6 +40,10 @@ class LanguageGroupCheck{
 			if($this->_countryX !== "" && $this->_countryY != ""){
 				$this->__checkSimilarSpeakingLangCntry();
 			}
+			
+		}else{
+			
+			$this->__formatOutPutMsg("Missing arguments.", "error:");
 			
 		}
 	
@@ -181,7 +179,34 @@ class LanguageGroupCheck{
 		exit($_strText);
 	}
 	
-}
+	public function __validateCountryArguments($argv){
+		
+		/* us of coalescing operator php7 */
+		$this->_countryX	=	ucfirst(strtolower($argv[1] ?? ''));
+		$this->_countryY	=	ucfirst(strtolower($argv[2] ?? ''));
 
-$c = new \Api\LanguageGroupCheck($argc, $argv); // see "Global Space" section
+		/* validation */
+		if($this->_countryX == "" && $this->_countryY == ""){
+			
+			$this->__formatOutPutMsg("Country name can't be blank! Please enter any country name", "error:");
+			
+		}else if(($this->_countryX != "" && !preg_match('/[a-zA-Z]/', $this->_countryX)) || ($this->_countryY != "" && !preg_match('/[a-zA-Z]/', $this->_countryY))){
+			
+			$this->__formatOutPutMsg("Invalid value! Only country name allowed. E.g. Balgium, Germany, Inida, Spain, etc.", "error:");
+			
+		}else{
+			
+			//all good to go further
+			
+		}
+		
+	}
+	
+	public function __destruct(){
+		
+		//do something here...
+		
+	}
+	
+}
 ?>
