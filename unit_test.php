@@ -11,7 +11,7 @@ final class apiTest extends TestCase
 
         $this->assertInstanceOf(
             lgc::class,
-            lgc::__validateCountryArguments(['', 'spain'])
+            lgc::__validateCountryArguments('spain', 'belgium')
         );
     }
 }

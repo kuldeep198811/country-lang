@@ -27,9 +27,9 @@ class languageGroupCheck{
 			/* us of coalescing operator php7 */
 			$this->_countryX	=	ucfirst(strtolower($argv[1] ?? ''));
 			$this->_countryY	=	ucfirst(strtolower($argv[2] ?? ''));
-
+		
 			/* validation */
-			$this->__validateCountryArguments($argv);
+			$this->__validateCountryArguments($this->_countryX, $this->_countryY);
 			
 			/* if only a county is passing */
 			if($this->_countryX !== "" && $this->_countryY == ""){
@@ -179,25 +179,23 @@ class languageGroupCheck{
 		exit($_strText);
 	}
 	
-	public function __validateCountryArguments($argv){
+	public function __validateCountryArguments($_countryX, $_countryY = ""){
 		
-		/* us of coalescing operator php7 */
-		$this->_countryX	=	ucfirst(strtolower($argv[1] ?? ''));
-		$this->_countryY	=	ucfirst(strtolower($argv[2] ?? ''));
+		
 
 		/* validation */
-		if($this->_countryX == "" && $this->_countryY == ""){
+		if($_countryX == "" && $_countryY == ""){
 			
 			$this->__formatOutPutMsg("Country name can't be blank! Please enter any country name", "error:");
 			
-		}else if(($this->_countryX != "" && !preg_match('/[a-zA-Z]/', $this->_countryX)) || ($this->_countryY != "" && !preg_match('/[a-zA-Z]/', $this->_countryY))){
+		}else if(($_countryX != "" && !preg_match('/[a-zA-Z]/', $_countryX)) || ($_countryY != "" && !preg_match('/[a-zA-Z]/', $_countryY))){
 			
 			$this->__formatOutPutMsg("Invalid value! Only country name allowed. E.g. Balgium, Germany, Inida, Spain, etc.", "error:");
 			
 		}else{
 			
 			//all good to go further
-			
+			return true;
 		}
 		
 	}
