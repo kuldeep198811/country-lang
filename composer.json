@@ -2,5 +2,5 @@
     "name": "kuldeep198811/country-lang",
     "type": "symfony-pack",
     "license": "MIT",
-    "description": "A pack for functional and end-to-end testing within a Symfony app",
+    "description": "A pack for functional and end-to-end testing within a Symfony app"
 }
