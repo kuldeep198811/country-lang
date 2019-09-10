@@ -176,7 +176,7 @@ class languageGroupCheck{
 		$_strText 	 =	"\n/***********************************************/\n";
 		$_strText 	.=	ucwords(strtolower($_type)). " {$_msg}";
 		$_strText 	.=	"\n/***********************************************/\n";
-		exit($_strText);
+		echo($_strText);
 	}
 	
 	public function __validateCountryArguments($_countryX, $_countryY = ""){
@@ -187,6 +187,10 @@ class languageGroupCheck{
 		if($_countryX == "" && $_countryY == ""){
 			
 			$this->__formatOutPutMsg("Country name can't be blank! Please enter any country name", "error:");
+			
+		}else if($_countryX == "" && $_countryY != "" && preg_match('/[a-zA-Z]/', $_countryY)){
+			
+			$this->__formatOutPutMsg("Invalid value! Primary country name is missing.", "error:");
 			
 		}else if(($_countryX != "" && !preg_match('/[a-zA-Z]/', $_countryX)) || ($_countryY != "" && !preg_match('/[a-zA-Z]/', $_countryY))){
 			
