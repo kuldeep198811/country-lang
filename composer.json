@@ -1,6 +1,10 @@
 {
     "repositories": [
         {
+            "type": "vcs",
+            "url": "https://github.com/kuldeep198811/country-lang"
+        },
+        {
             "type": "package",
             "package": {
                 "name": "kuldeep198811/country-lang",
