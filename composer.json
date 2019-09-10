@@ -7,6 +7,6 @@
   ],
   
   "require"          : {
-    "public/repository": "dev-master",
+    "public/repository": "dev-master"
   }
 }
