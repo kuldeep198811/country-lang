@@ -1,17 +1,16 @@
 "repositories": [
-    {
-        "type":"package",
-        "package": {
-          "name": "country-language-group-check",
-          "version":"master",
-          "source": {
-              "url": "https://github.com/kuldeep198811/country-lang.git",
-              "type": "git",
-              "reference":"master"
-            }
+{
+    "type": "package",
+    "package": {
+        "name": "9992818439", //give package name to anything, must be unique
+        "version": "1.0",
+        "source": {
+            "url": "https://github.com/kuldeep198811/country-lang.git", //git url
+            "type": "git",
+            "reference": "master" //git branch-name
         }
     }
-],
-"require": {
-    "kuldeep198811/country-lang": "master"
+}],
+"require" : {
+  "9992818439": "1.0"
 }
