@@ -1,7 +1,23 @@
 {
-    "name": "country-lang",
-    "type": "country-lang",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kuldeep198811/country-lang"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "kuldeep198811/country-lang",
+                "version": "^1.0",
+                "source": {
+                    "url": "https://github.com/kuldeep198811/country-lang",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
+        }
+    ],
     "require": {
-        "composer/installers": "~1.0"
+        "kuldeep198811/country-lang": "dev-master"
     }
 }
