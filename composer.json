@@ -1,5 +1,5 @@
 {
-    "name": "kuldeep198811/country-lang",
+    "name": "country-language-group-check",
     "type": "country-lang",
     "require": {
         "kuldeep198811/country-lang": "dev-master"
