@@ -2,10 +2,10 @@
 {
     "type": "package",
     "package": {
-        "name": "9992818439", //give package name to anything, must be unique
+        "name": "9992818439",
         "version": "1.0",
         "source": {
-            "url": "https://github.com/kuldeep198811/country-lang.git", //git url
+            "url": "https://github.com/kuldeep198811/country-lang.git",
             "type": "git",
             "reference": "master" //git branch-name
         }
