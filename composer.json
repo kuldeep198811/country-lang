@@ -1,8 +1,12 @@
 {
-    "repositories": {
-        "country-lang": {
-            "type": "vcs",
-            "url": "https://github.com/kuldeep198811/country-lang.git"
-        }
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/kuldeep198811/country-lang.git"
     }
+  ],
+
+  "require": {
+    "kuldeep198811/country-lang": "1.0"
+  }
 }
